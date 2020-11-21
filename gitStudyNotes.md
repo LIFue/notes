@@ -12,6 +12,8 @@
   - 已暂存
 - 未跟踪：除去已跟踪文件之外的所有文件。也就是不在上一次快照中，也不在暂存区中的文件。
 
+![images](images/git/file_status.JPG)
+
 当刚刚完成仓库克隆时，所有文件的状态都是已跟踪且为修改的。
 
 #### 2. 查看当前文件状态
@@ -60,6 +62,8 @@ git add 命令意指添加内容到下一次提交中，即文件状态为已暂
 - 以斜杠（/）开头的模式可用于禁止递归匹配
 - 以斜杠（/）结尾的模式表示目录
 - 以感叹号（！）开始的模式表示取反
+
+![git ignore](images/git/ignore_example.JPG)
 
 #### 5. 查看已暂存和未暂存的变更
 
@@ -160,7 +164,12 @@ $git log
   - short、full和fuller会分别比默认输入减少或增加一些信息。
   - format：可以指定自己的输出格式。
 
+  ![git format1](images/git/output_format1.JPG)
+  ![git format2](images/git/output_format2.JPG)
+
 - --graph：会用ASCII字符形式的简单图表来显示Git分支和合并历史。
+
+![git log](images/git/git_log.JPG)
 
 限制提交历史的输出范围
 
@@ -256,3 +265,89 @@ git push [remote-name] [branch-name]
 
 ```shell
 git push origin master
+```markdown
+
+推送前提：
+
+1. 拥有仓库的写权限。
+2. 在你拉取和推送之间没有其他用户推送了新版本，否则，需要先整合其他用户推送内容才能推送。
+
+#### 5. 检查远程仓库
+
+命令：
+
+```shell
+git remote show [remote-name]
+```
+
+查看某一远程仓库的更多信息。
+
+#### 6. 删除和重命名远程仓库
+
+命令：
+
+```shell
+#重命名
+git remote rename old_name new_name
+#删除
+git remote rm remote_name
+```
+
+### 5. 标记
+
+#### 1. 列举标签
+
+列举可用标签：
+
+```shell
+git tag
+```
+
+查看指定系列标签
+
+```shell
+git tag -l "v1.8.5*" #会列出标签匹配的所有标签
+```
+
+#### 2. 创建标签
+
+- 轻量（lightweight）标签:他只是一个指向某次提交的指针。
+- 注释（annotated）标签：作为完整的对象存储在Git数据库中。Git会计算其校验和，除此之外还包含其他信息，比如标记者（tagger）的名字、邮箱地址和标签的创建时间，还有标记信息（tagging message），另外还可以利用GNU Privacy Guard（GPG）对他们进行签名和验证。
+
+##### 2.1 注释标签
+
+创建注释标签只需要执行带有-a选项的tag命令即可
+
+```shell
+git tag -a v1.4 -m "my version 1.4"
+```
+
+-m 选项指定了标记信息，他会伴随标签一起被存储。
+
+查看标签数据：
+
+```shell
+git show v1.4
+```
+
+##### 2.2 轻量标签
+
+这种标签就是把提交的校验和保存到文件中，除此之外，不包含其他任何信息。
+
+```shell
+git tag v1.4_lw
+```
+
+不需要任何选项和参数。创建的就是轻量标签。
+
+##### 2.3 补加标签
+
+假设之前的某个版本忘了添加标签，还可以给那次提交添加标签。只需在命令最后指定提交的校验和（或部分检验和）。检验和->`git log pretty=oneline` 显示的十六进制数。
+
+```shell
+git tag -a v1.2 9fceb02
+```
+
+## 第三章
+
+### 3.1分支机制简述
